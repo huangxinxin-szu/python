@@ -66,7 +66,6 @@ class ErrSatistics:
 			today = []
 			for api in self.dataDict[logDate]:
 				if api['apiName'] == apiName:
-					
 					for code in self.codeTypeMap.keys():
 						today.append(api[self.codeTypeMap[code]])
 					break
@@ -74,17 +73,25 @@ class ErrSatistics:
 		df = pd.DataFrame(data,index=self.dateList,columns=list(self.codeTypeMap.keys()))
 		df.plot(kind='bar',stacked=True)
 
-		# totalList = []
-		# for logDate  in self.dateList:
-		# 	total = 0
-		# 	for api in self.dataDict[logDate]:
-		# 		if api['apiName'] == apiName:
-		# 			total = total + api['totalErrs']
-		# 			break
-		# 	totalList.append(total)
-		# plt.plot(self.dateList,totalList)
-		# plt.title(apiName)
-		# plt.show()
+	# 画表格
+	def printSpecificDay(self, targetDay):
+		label = []
+		data = []
+		apiList = self.dataDict[targetDay] # [{api1},{api2}]
+		for api in apiList:   # api {"name":"adf","1600":20}
+			if label == []:
+				label = list(api.keys())
+			xData = []
+			for key in api.keys():
+				xData.append(api[key])
+			data.append(xData)
+		df = pd.DataFrame(data)
+		return df
+
+
+
+
+
 
 
 res = requests.get(file_url)
@@ -102,3 +109,5 @@ data_dict = json.loads(data_json)
 errSatistics = ErrSatistics(data_dict)
 errSatistics.printErrInfoByCode()
 errSatistics.printSpecificApi("GetGroupHistoryJobByCluster")
+table = errSatistics.printSpecificDay("2020/03/18")
+print(table)
