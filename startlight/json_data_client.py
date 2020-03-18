@@ -60,18 +60,31 @@ class ErrSatistics:
 
 	# 画特定接口的报错
 	def printSpecificApi(self,apiName):
-		df = pd.DataFrame(np.random.rand(10, 3), columns=['a', 'b','c'])
-		totalList = []
+		# data [[],[]] 没一个[]元素为每天的数据
+		data = []
 		for logDate  in self.dateList:
-			total = 0
+			today = []
 			for api in self.dataDict[logDate]:
 				if api['apiName'] == apiName:
-					total = total + api['totalErrs']
+					
+					for code in self.codeTypeMap.keys():
+						today.append(api[self.codeTypeMap[code]])
 					break
-			totalList.append(total)
-		plt.plot(self.dateList,totalList)
-		plt.title(apiName)
-		plt.show()
+			data.append(today)		     
+		df = pd.DataFrame(data,index=self.dateList,columns=list(self.codeTypeMap.keys()))
+		df.plot(kind='bar',stacked=True)
+
+		# totalList = []
+		# for logDate  in self.dateList:
+		# 	total = 0
+		# 	for api in self.dataDict[logDate]:
+		# 		if api['apiName'] == apiName:
+		# 			total = total + api['totalErrs']
+		# 			break
+		# 	totalList.append(total)
+		# plt.plot(self.dateList,totalList)
+		# plt.title(apiName)
+		# plt.show()
 
 
 res = requests.get(file_url)
