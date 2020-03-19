@@ -117,5 +117,5 @@ class ErrSatistics:
 				else:
 					xData.append(api[key])
 			data.append(xData)
-		df = pd.DataFrame(data,columns=label,index=index)
+		df = pd.DataFrame(data,columns=label,index=index,title= targetDay)
 		return df

@@ -109,6 +109,7 @@ class StartLightLogAnalyzer:
     __service_api_dict = {}  # { serviceName : { apiName : []}} 存放错误日志
     __analyze_result_list = []  # [ {serviceName} ]
     __targetDay = ""
+    __from = "k8s"
 
     def __init__(self,targetDay):
         self.__targetDay = targetDay
