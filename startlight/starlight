@@ -5,8 +5,6 @@ import requests
 import matplotlib.pyplot as plt
 import pandas as pd
 
-file_url = "http://172.16.26.1:12345/startlight_err_data.json"
-
 class ErrSatistics:
 	fileUrl = ""
 	dataDict = {}
@@ -22,8 +20,6 @@ class ErrSatistics:
 	codeTypeMap["1500"] = "interSrvFailed"
 	codeTypeMap["1600"] = "dbFailed"
 	codeTypeMap["11203"] = "deadlineExceeded"
-
-
 
 	def __init__(self,fileUrl):
 		self.fileUrl = fileUrl
@@ -122,17 +118,4 @@ class ErrSatistics:
 					xData.append(api[key])
 			data.append(xData)
 		df = pd.DataFrame(data,columns=label,index=index)
-		# print(df)
 		return df
-
-	# 打印
-	# def printSpecific
-
-
-errSatistics = ErrSatistics(file_url)
-errSatistics.init()
-errSatistics.printTotalErr()
-errSatistics.printErrInfoByCode()
-errSatistics.printSpecificApi("GetGroupHistoryJobByCluster")
-errSatistics.printSpecificDay("2020/03/18")
-# print(table)
